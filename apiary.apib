@@ -1,80 +1,236 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: http://darmusic.docker/v1
 
-# DAR Music
+# DAR Music API
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+# Group Альбомы
 
-## Questions Collection [/questions]
+Операции по выводу доступных альбомов
 
-### List All Questions [GET]
+## Альбомы [/albums{?page,perPage,expand}]
++ Parameters
+    + page: `1` (number, optional) - номер страницы
+        + Default: 1
+    + perPage: `12` (number, optional) - количество элементов на страницу
+        + Default: 1
+    + expand: `album,file` (string, optional) - дополнительные атрибуты для раскрытия
+        + Default: null
+
+
+Вывод списка доступных альбомов с постраничной навигацией
+
+### Получить список альбомов [GET]
 
 + Response 200 (application/json)
+    + Attributes (Album Collection, required)
 
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
+## Альбом [/album/{id}]
++ Parameters
+    + id: `123` (number, required) - идентификатор модели
+    + expand: `album,file` (string, optional) - дополнительные атрибуты для раскрытия
+        + Default: null
 
-### Create a New Question [POST]
 
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+Операции над конкретным альбомом
 
-+ Request (application/json)
+### Получить альбом [GET]
 
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
++ Response 200 (application/json)
+    + Attributes (Album, required)
 
-+ Response 201 (application/json)
 
-    + Headers
+# Group Треки
 
-            Location: /questions/2
+## Треки [/tracks{?page,perPage,expand}]
++ Parameters
+    + page: `1` (number, optional) - номер страницы
+        + Default: 1
+    + perPage: `12` (number, optional) - количество элементов на страницу
+        + Default: 1
+    + expand: `album,file` (string, optional) - дополнительные атрибуты для раскрытия
+        + Default: null
 
-    + Body
 
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
+Вывод списка доступных треков с постраничной навигацией
+
+### Получить список треков [GET]
+
++ Response 200 (application/json)
+    + Attributes (Track Collection, required)
+
+## Трек [/track/{id}]
++ Parameters
+    + id: `123` (number, required) - идентификатор модели
+    + expand: `album,file` (string, optional) - дополнительные атрибуты для раскрытия
+        + Default: null
+
+
+Операции над конкретным треком
+
+### Получить трек [GET]
+
++ Response 200 (application/json)
+    + Attributes (Track, required)
+
+
+# Group Исполнители
+
+## Исполнители [/artists{?page,perPage,expand}]
++ Parameters
+    + page: `1` (number, optional) - номер страницы
+        + Default: 1
+    + perPage: `12` (number, optional) - количество элементов на страницу
+        + Default: 1
+    + expand: `album,file` (string, optional) - дополнительные атрибуты для раскрытия
+        + Default: null
+
+
+Вывод списка доступных исполнителей с постраничной навигацией
+
+### Получить список исполнителей [GET]
+
++ Response 200 (application/json)
+    + Attributes (Artist Collection, required)
+
+## Исполнитель [/artist/{id}]
++ Parameters
+    + id: `123` (number, required) - идентификатор модели
+    + expand: `album,file` (string, optional) - дополнительные атрибуты для раскрытия
+        + Default: null
+
+
+Операции над конкретным исполнителем
+
+### Получить исполнителя [GET]
+
++ Response 200 (application/json)
+    + Attributes (Artist, required)
+
+
+# Group Жанры
+
+## Жанры [/genres{?page,perPage,expand}]
++ Parameters
+    + page: `1` (number, optional) - номер страницы
+        + Default: 1
+    + perPage: `12` (number, optional) - количество элементов на страницу
+        + Default: 1
+    + expand: `album,file` (string, optional) - дополнительные атрибуты для раскрытия
+        + Default: null
+
+
+Вывод списка доступных жанров с постраничной навигацией
+
+### Получить список треков [GET]
+
++ Response 200 (application/json)
+    + Attributes (Genre Collection, required)
+
+## Жанр [/genre/{id}]
++ Parameters
+    + id: `123` (number, required) - идентификатор модели
+    + expand: `album,file` (string, optional) - дополнительные атрибуты для раскрытия
+        + Default: null
+
+
+Операции над конкретным жанром
+
+### Получить жанр [GET]
+
++ Response 200 (application/json)
+    + Attributes (Genre, required)
+
+
+# Data Structures
+
+## Track (object)
++ id: `123` (number, required)
++ name: `Swan Song`
++ albumId (number, required) - идентификатор альбома
++ file (TrackFile, optional) - файл музыкального трека
++ artists (array[Artist], optional) - список исполнителей альбома
++ duration: `120` (number, required) - продолжительность в секундах
++ position: `3` (number, required) - позиция трека в альбоме
++ createdAt: `1447536536` (number, required) - дата создания
+
+## Track List (array)
++ (Track)
+
+## Track Collection (object)
++ items (Track List, required)
++ _meta (CollectionMeta, required)
+
+## Album (object)
++ id: `123` (number, required)
++ name: `Honeymoon` (string, required) - наименование альбома
++ cover (ImageFile, optional) - изображение обложки
++ tracks (array[Track], optional) - список треков альбома
++ genres (array[Genre], optional) - список жанров альбома
++ artists (array[Artist], optional) - список исполнителей альбома
++ createdAt: `1447536536` (number, required) - дата создания
+
+## Album List (array)
++ (Album)
+
+## Album Collection (object)
++ items (Album List, required)
++ _meta (CollectionMeta, required)
+
+## Artist (object)
++ id: `123` (number, required)
++ name: `Lana Del Ray` (string, required) - наименование исполнителя
++ cover (ImageFile, optional) - изображение обложки исполнителя
++ role (ArtistRole, optional) - роль исполнителя
++ createdAt: `1447536536` (number, required) - дата создания
+
+## Artist List (array)
++ (Artist)
+
+## Artist Collection (object)
++ items (Artist List, required)
++ _meta (CollectionMeta, required)
+
+## ArtistRole (object)
++ id: `123` (number, required)
++ name: `Гитарист` (string, required) - Имя роли исполнителя
+
+## Genre (object)
++ id: `123` (number, required)
++ name: `Pop` (string, required) - наименование жанра
++ cover (ImageFile, optional) - изображение обложки исполнителя
++ role (ArtistRole, optional) - роль исполнителя
++ createdAt: `1447536536` (number, required) - дата создания
+
+## Genre List (array)
++ (Genre)
+
+## Genre Collection (object)
++ items (Genre List, required)
++ _meta (CollectionMeta, required)
+
+## ImageFile (object)
++ id: `123` (number, required)
++ name: `http://image.server/image.jpeg` (string, required) - имя файла
++ mimeType: `image/jpeg` (string, required) - Media Type файла
++ size: `12345` (number, required) - размер файла в байтах
++ meta (ImageMeta, required)
+
+## ImageMeta (object)
++ width: `100` (number, required) - ширина в пикселях
++ height: `100` (number, required) - высота в пикселях
+
+## TrackFile (object)
++ id: `123` (number, required)
++ name: `http://image.server/track.mp3` (string, required) - имя файла
++ mimeType: `audio/mpeg` (string, required) - Media Type файла
++ size: `12345` (number, required) - размер файла в байтах
++ meta (TrackMeta, required)
+
+## TrackMeta (object)
++ duration: `120` (number, required) - продолжительность в секундах
+
+## CollectionMeta (object)
++ totalCount: `125` (number, required) - общее количество элементов
++ pageCount: `5` (number, required) - количество страниц
++ currentPage: `2` (number, required) - текущая страница
++ perPage: `25` (number, required) - количество элементов на странице
